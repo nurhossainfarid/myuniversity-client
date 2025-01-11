@@ -1,9 +1,7 @@
-const App = () => {
-  return (
-    <div>
-      <h1>My University Clients</h1>
-    </div>
-  )
-}
+import MainLayout from "./components/layout/MainLayout";
 
-export default App
+const App = () => {
+  return <MainLayout />;
+};
+
+export default App;
