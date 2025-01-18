@@ -12,6 +12,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^2.5.0",
     "antd": "^5.23.0",
+    "jwt-decode": "^4.0.0",
     "myuniversity-client": "file:",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
