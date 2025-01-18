@@ -5,12 +5,22 @@ import { adminPaths } from "./admin.routes";
 import { facultyPaths } from "./faculty.routes";
 import { studentPaths } from "./student.routes";
 import Login from "../pages/Login";
+// import ProtectedRoute from "../components/layout/ProtectedRoute";
 
 const routes = createBrowserRouter([
   {
     path: "/",
     element: <App />,
   },
+  // {
+  //   path: "/admin",
+  //   element: (
+  //     <ProtectedRoute>
+  //       <App />
+  //     </ProtectedRoute>
+  //   ),
+  //   children: routesGenerator(adminPaths),
+  // },
   {
     path: "/admin",
     element: <App />,
