@@ -1,18 +1,25 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button } from "antd";
-import { FieldValues, useForm } from "react-hook-form";
+import { Button, Row } from "antd";
+import { FieldValues } from "react-hook-form";
 import { useLoginMutation } from "../redux/features/auth/authApi";
 import { useAppDispatch } from "../redux/hooks/hooks";
 import { setUser, TUser } from "../redux/features/auth/authSlice";
 import { verifyToken } from "../utils/verifyToken";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import PHForm from "../components/form/PHForm";
+import PHInput from "../components/form/PHInput";
 
 const Login = () => {
-  const dispatch = useAppDispatch();
-  const { register, handleSubmit } = useForm();
-  const [login] = useLoginMutation();
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  // const { register, handleSubmit } = useForm();
+  const [login] = useLoginMutation();
+
+  const defaultValues = {
+    userId: "A-0001",
+    password: "farid123",
+  };
 
   const onSubmit = async (data: FieldValues) => {
     const toastId = toast.loading("Logging in...");
@@ -33,17 +40,18 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div>
-        <label htmlFor="id">ID: </label>
-        <input type="text" id="id" {...register("userId")} />
-      </div>
-      <div>
-        <label htmlFor="password">Password: </label>
-        <input type="text" id="password" {...register("password")} />
-      </div>
-      <Button htmlType="submit">Login</Button>
-    </form>
+    <Row
+      justify="center"
+      align={"middle"}
+      style={{ height: "100vh", }}
+    >
+      <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
+        <h1 style={{marginBottom: '10px'}}>Login</h1>
+        <PHInput type="text" name="userId" label="Id:" />
+        <PHInput type="text" name="password" label="Password" />
+        <Button htmlType="submit">Login</Button>
+      </PHForm>
+    </Row>
   );
 };
 
