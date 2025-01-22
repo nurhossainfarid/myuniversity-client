@@ -1,7 +1,6 @@
 import { Table, TableColumnsType, Button } from "antd";
 import { TAcademicDepartment, TAcademicFaculty } from "../../../types";
 import { useGetAcademicDepartmentsQuery } from "../../../redux/features/admin/academicManagement";
-import { academicFacultySchema } from "../../../schemas/academicMansgement.schema";
 
 export type TADepartmentTableData = Pick<
   TAcademicDepartment,
