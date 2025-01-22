@@ -1,6 +1,7 @@
 import { useGetAcademicSemestersQuery } from "../../../redux/features/admin/academicManagement";
 import { Table, TableColumnsType, TableProps } from "antd";
-import { TAcademicSemester } from "../../../types";
+import { TAcademicSemester, TQueryParam } from "../../../types";
+import { useState } from "react";
 
 export type TTableData = Pick<
   TAcademicSemester,
@@ -8,7 +9,8 @@ export type TTableData = Pick<
 >;
 
 const AcademicSemester = () => {
-  const { data: semesterData } = useGetAcademicSemestersQuery(undefined);
+  const [params, setParams] = useState<TQueryParam[] | undefined>(undefined);
+  const { data: semesterData } = useGetAcademicSemestersQuery(params);
 
   const data = semesterData?.data?.map(
     ({ _id, name, year, startMonth, endMonth }) => ({
@@ -27,26 +29,16 @@ const AcademicSemester = () => {
       showSorterTooltip: { target: "full-header" },
       filters: [
         {
-          text: "Joe",
-          value: "Joe",
+          text: "Autumn",
+          value: "Autumn",
         },
         {
-          text: "Jim",
-          value: "Jim",
+          text: "Summer",
+          value: "Summer",
         },
         {
-          text: "Submenu",
-          value: "Submenu",
-          children: [
-            {
-              text: "Green",
-              value: "Green",
-            },
-            {
-              text: "Black",
-              value: "Black",
-            },
-          ],
+          text: "Fall",
+          value: "Fall",
         },
       ],
       onFilter: (value, record) => record.name.indexOf(value as string) === 0,
@@ -56,23 +48,24 @@ const AcademicSemester = () => {
     {
       title: "Year",
       dataIndex: "year",
-      defaultSortOrder: "descend",
+      filters: [
+        {
+          text: "2024",
+          value: "2024",
+        },
+        {
+          text: "2025",
+          value: "2025",
+        },
+        {
+          text: "2026",
+          value: "2026",
+        },
+      ],
     },
     {
       title: "Start Month",
       dataIndex: "startMonth",
-      filters: [
-        {
-          text: "London",
-          value: "London",
-        },
-        {
-          text: "New York",
-          value: "New York",
-        },
-      ],
-      onFilter: (value, record) =>
-        record.startMonth.indexOf(value as string) === 0,
     },
     {
       title: "End Month",
@@ -86,7 +79,19 @@ const AcademicSemester = () => {
     sorter,
     extra
   ) => {
-    console.log("params", pagination, filters, sorter, extra);
+    if (extra.action === "filter") {
+      const queryParams: TQueryParam[] = [];
+
+      filters?.name?.forEach((item) =>
+        queryParams.push({ name: "name", value: item })
+      );
+
+      filters?.year?.forEach((item) =>
+        queryParams.push({ name: "year", value: item })
+      );
+
+      setParams(queryParams);
+    }
   };
 
   return (
