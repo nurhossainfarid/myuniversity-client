@@ -1,5 +1,5 @@
 import { useGetAcademicSemestersQuery } from "../../../redux/features/admin/academicManagement";
-import { Table, TableColumnsType, TableProps } from "antd";
+import { Table, TableColumnsType, TableProps, Button } from "antd";
 import { TAcademicSemester, TQueryParam } from "../../../types";
 import { useState } from "react";
 
@@ -41,9 +41,6 @@ const AcademicSemester = () => {
           value: "Fall",
         },
       ],
-      onFilter: (value, record) => record.name.indexOf(value as string) === 0,
-      sorter: (a, b) => a.name.length - b.name.length,
-      sortDirections: ["descend"],
     },
     {
       title: "Year",
@@ -70,6 +67,15 @@ const AcademicSemester = () => {
     {
       title: "End Month",
       dataIndex: "endMonth",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: () => (
+        <div>
+          <Button>Update</Button>
+        </div>
+      ),
     },
   ];
 
