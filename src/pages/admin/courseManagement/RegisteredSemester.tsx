@@ -2,7 +2,10 @@ import { Button, Dropdown, Table, TableColumnsType, Tag } from "antd";
 import moment from "moment";
 import { TSemester } from "../../../types";
 import { useState } from "react";
-import { useGetRegisteredSemestersQuery, useUpdateRegisteredSemesterStatusMutation } from "../../../redux/features/admin/courseManagement";
+import {
+  useGetRegisteredSemestersQuery,
+  useUpdateRegisteredSemesterStatusMutation,
+} from "../../../redux/features/admin/courseManagement";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 export type TTableData = Pick<TSemester, "startDate" | "endDate" | "status">;
 
@@ -27,7 +30,6 @@ const RegisteredSemesters = () => {
   const { data: semesterData, isFetching } =
     useGetRegisteredSemestersQuery(undefined);
   const [updateSemesterStatus] = useUpdateRegisteredSemesterStatusMutation();
-
 
   const tableData = semesterData?.data?.map(
     ({ _id, academicSemester, startDate, endDate, status }) => ({
