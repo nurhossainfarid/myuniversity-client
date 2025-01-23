@@ -70,7 +70,7 @@ const AcademicSemester = () => {
     },
     {
       title: "Action",
-      key: "action",
+      key: "x",
       render: () => (
         <div>
           <Button>Update</Button>

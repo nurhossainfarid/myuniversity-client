@@ -1,4 +1,4 @@
-import { Button, Col, Divider, Flex, Row } from "antd";
+import { Button, Col, Divider, Flex, Form, Input, Row } from "antd";
 import PHForm from "../../../components/form/PHForm";
 import PHInput from "../../../components/form/PHInput";
 import PHSelect from "../../../components/form/PHSelect";
@@ -7,8 +7,46 @@ import {
   useGetAcademicDepartmentsQuery,
   useGetAcademicSemestersQuery,
 } from "../../../redux/features/admin/academicManagement";
+import { useAddStudentMutation } from "../../../redux/features/admin/userManagement";
+import PHDatePicker from "../../../components/form/PHDatePicker";
+import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
+import { TAcademicDepartment } from "../../../types";
 
 const CreateStudent = () => {
+  const studentDefaultValues = {
+    name: {
+      firstName: "I am ",
+      middleName: "Student",
+      lastName: "Number 1",
+    },
+    gender: "male",
+    bloodGroup: "A+",
+    contactNo: "1235678",
+    emergencyContactNo: "987-654-3210",
+    presentAddress: "123 Main St, Cityville",
+    permanentAddress: "456 Oak St, Townsville",
+    guardian: {
+      fatherName: "James Doe",
+      fatherOccupation: "Engineer",
+      fatherContactNo: "111-222-3333",
+      motherName: "Mary Doe",
+      motherOccupation: "Teacher",
+      motherContactNo: "444-555-6666",
+    },
+    localGuardian: {
+      name: "Alice Johnson",
+      occupation: "Doctor",
+      contactNo: "777-888-9999",
+      address: "789 Pine St, Villageton",
+    },
+    admissionSemester: "6790672811e9b62afcfb28b2",
+    academicDepartment: "67910b747376588b699d5bb8",
+  };
+
+  const [addStudent, { data, error }] = useAddStudentMutation();
+
+  console.log({ data, error });
+
   const { data: sData, isLoading: sIsLoading } =
     useGetAcademicSemestersQuery(undefined);
 
@@ -20,17 +58,34 @@ const CreateStudent = () => {
     label: `${item.name} ${item.year}`,
   }));
 
-  const departmentOptions = dData?.data?.map((item) => ({
+  const departmentOptions = dData?.data?.map((item: TAcademicDepartment) => ({
     value: item._id,
     label: item.name,
   }));
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    const studentData = {
+      password: "student123",
+      student: data,
+    };
+
+    console.log(JSON.stringify(studentData));
+
+    const formData = new FormData();
+
+    formData.append("data", JSON.stringify(studentData));
+    formData.append("file", data.image);
+
+    addStudent(formData);
+
+    //! This is for development
+    //! Just for checking
+    console.log(Object.fromEntries(formData));
   };
+
   return (
     <Flex justify="center" align="center">
       <Col span={24}>
-        <PHForm onSubmit={onSubmit}>
+        <PHForm onSubmit={onSubmit} defaultValues={studentDefaultValues}>
           <Divider>Personal Information</Divider>
           <Row gutter={8}>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
@@ -46,13 +101,28 @@ const CreateStudent = () => {
               <PHSelect label="Gender" name="gender" options={genderOptions} />
             </Col>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
-              <PHInput type="text" name="dateOfBirth" label="Date Of Birth" />
+              <PHDatePicker label="Date of Birth" name="dateOfBirth" />
             </Col>
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
               <PHSelect
                 label="Blood Group"
                 name="bloodGroup"
                 options={bloodGroupOptions}
+              />
+            </Col>
+            <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
+              <Controller
+                name="image"
+                render={({ field: { onChange, value, ...field } }) => (
+                  <Form.Item label="Picture">
+                    <Input
+                      type="file"
+                      value={value?.fileName}
+                      {...field}
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                    />
+                  </Form.Item>
+                )}
               />
             </Col>
           </Row>
@@ -163,7 +233,6 @@ const CreateStudent = () => {
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
               <PHSelect
                 options={semesterOptions}
-                disabled={sIsLoading}
                 name="admissionSemester"
                 label="Admission Semester"
               />
@@ -171,7 +240,6 @@ const CreateStudent = () => {
             <Col span={24} md={{ span: 12 }} lg={{ span: 8 }}>
               <PHSelect
                 options={departmentOptions}
-                disabled={dIsLoading}
                 name="academicDepartment"
                 label="Admission Department"
               />
@@ -180,7 +248,6 @@ const CreateStudent = () => {
 
           <Button htmlType="submit">Submit</Button>
         </PHForm>
-        ;
       </Col>
     </Flex>
   );
