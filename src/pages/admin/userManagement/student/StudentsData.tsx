@@ -1,4 +1,4 @@
-import { TStudent } from "../../../types";
+import { TStudent } from "../../../../types";
 import {
   Table,
   TableColumnsType,
@@ -8,8 +8,9 @@ import {
   Pagination,
 } from "antd";
 import { useState } from "react";
-import { TQueryParam } from "../../../types";
-import { useGetStudentsQuery } from "../../../redux/features/admin/userManagement";
+import { TQueryParam } from "../../../../types";
+import { useGetStudentsQuery } from "../../../../redux/features/admin/userManagement";
+import { Link } from "react-router-dom";
 
 export type TStudentsTableData = Pick<TStudent, "fullName" | "id">;
 
@@ -42,15 +43,17 @@ const StudentsData = () => {
     {
       title: "Action",
       key: "x",
-      render: () => (
-        <div>
+      render: (item) => {
+        return (
           <Space>
-            <Button>Details</Button>
+            <Link to={`/admin/student-data/${item.key}`}>
+              <Button>Detail</Button>
+            </Link>
             <Button>Update</Button>
             <Button>Block</Button>
           </Space>
-        </div>
-      ),
+        );
+      },
       width: "1%",
     },
   ];
@@ -86,7 +89,7 @@ const StudentsData = () => {
         pagination={false}
       />
       <Pagination
-        style={{ marginTop: "1rem", }}
+        style={{ marginTop: "1rem" }}
         current={page}
         onChange={(value) => setPage(value)}
         pageSize={metaData?.limit}

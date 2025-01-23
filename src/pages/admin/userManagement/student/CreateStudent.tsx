@@ -1,16 +1,16 @@
 import { Button, Col, Divider, Flex, Form, Input, Row } from "antd";
-import PHForm from "../../../components/form/PHForm";
-import PHInput from "../../../components/form/PHInput";
-import PHSelect from "../../../components/form/PHSelect";
-import { bloodGroupOptions, genderOptions } from "../../../constants/global";
+import PHForm from "../../../../components/form/PHForm";
+import PHInput from "../../../../components/form/PHInput";
+import PHSelect from "../../../../components/form/PHSelect";
+import { bloodGroupOptions, genderOptions } from "../../../../constants/global";
 import {
   useGetAcademicDepartmentsQuery,
   useGetAcademicSemestersQuery,
-} from "../../../redux/features/admin/academicManagement";
-import { useAddStudentMutation } from "../../../redux/features/admin/userManagement";
-import PHDatePicker from "../../../components/form/PHDatePicker";
+} from "../../../../redux/features/admin/academicManagement";
+import { useAddStudentMutation } from "../../../../redux/features/admin/userManagement";
+import PHDatePicker from "../../../../components/form/PHDatePicker";
 import { Controller, FieldValues, SubmitHandler } from "react-hook-form";
-import { TAcademicDepartment } from "../../../types";
+import { TAcademicDepartment } from "../../../../types";
 
 const CreateStudent = () => {
   const studentDefaultValues = {
