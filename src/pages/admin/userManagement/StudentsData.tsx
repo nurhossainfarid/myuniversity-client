@@ -1,5 +1,12 @@
 import { TStudent } from "../../../types";
-import { Table, TableColumnsType, TableProps, Button, Space } from "antd";
+import {
+  Table,
+  TableColumnsType,
+  TableProps,
+  Button,
+  Space,
+  Pagination,
+} from "antd";
 import { useState } from "react";
 import { TQueryParam } from "../../../types";
 import { useGetStudentsQuery } from "../../../redux/features/admin/userManagement";
@@ -7,10 +14,15 @@ import { useGetStudentsQuery } from "../../../redux/features/admin/userManagemen
 export type TStudentsTableData = Pick<TStudent, "fullName" | "id">;
 
 const StudentsData = () => {
-  const [params, setParams] = useState<TQueryParam[] | undefined>(undefined);
-  const { data: studentsData } = useGetStudentsQuery(params);
+  const [page, setPage] = useState(1);
+  const [params, setParams] = useState<TQueryParam[]>([]);
+  const { data: studentsData } = useGetStudentsQuery([
+    { name: "page", value: page },
+    { name: "sort", value: "id" },
+    ...params,
+  ]);
 
-  console.log(studentsData);
+  const metaData = studentsData?.meta;
 
   const data = studentsData?.data?.map(({ _id, fullName, id }) => ({
     key: _id,
@@ -65,12 +77,22 @@ const StudentsData = () => {
   };
 
   return (
-    <Table<TStudentsTableData>
-      columns={columns}
-      dataSource={data}
-      onChange={onChange}
-      showSorterTooltip={{ target: "sorter-icon" }}
-    />
+    <>
+      <Table<TStudentsTableData>
+        columns={columns}
+        dataSource={data}
+        onChange={onChange}
+        showSorterTooltip={{ target: "sorter-icon" }}
+        pagination={false}
+      />
+      <Pagination
+        style={{ marginTop: "1rem", }}
+        current={page}
+        onChange={(value) => setPage(value)}
+        pageSize={metaData?.limit}
+        total={metaData?.total}
+      />
+    </>
   );
 };
 
