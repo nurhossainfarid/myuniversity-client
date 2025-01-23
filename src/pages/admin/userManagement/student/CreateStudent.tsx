@@ -62,18 +62,17 @@ const CreateStudent = () => {
     value: item._id,
     label: item.name,
   }));
+
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log('data', data);
     const studentData = {
-      password: "student123",
+      password: "farid123",
       student: data,
     };
-
-    console.log(JSON.stringify(studentData));
 
     const formData = new FormData();
 
     formData.append("data", JSON.stringify(studentData));
-    formData.append("file", data.image);
 
     addStudent(formData);
 
