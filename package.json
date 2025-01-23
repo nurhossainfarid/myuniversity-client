@@ -12,6 +12,7 @@
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
     "@reduxjs/toolkit": "^2.5.0",
+    "@types/moment": "^2.13.0",
     "antd": "^5.23.0",
     "jwt-decode": "^4.0.0",
     "moment": "^2.30.1",

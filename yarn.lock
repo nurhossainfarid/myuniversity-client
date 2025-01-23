@@ -750,6 +750,13 @@
   resolved "https://registry.npmjs.org/@types/json-schema/-/json-schema-7.0.15.tgz"
   integrity sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==
 
+"@types/moment@^2.13.0":
+  version "2.13.0"
+  resolved "https://registry.yarnpkg.com/@types/moment/-/moment-2.13.0.tgz#604ebd189bc3bc34a1548689404e61a2a4aac896"
+  integrity sha512-DyuyYGpV6r+4Z1bUznLi/Y7HpGn4iQ4IVcGn8zrr1P4KotKLdH0sbK1TFR6RGyX6B+G8u83wCzL+bpawKU/hdQ==
+  dependencies:
+    moment "*"
+
 "@types/prop-types@*":
   version "15.7.14"
   resolved "https://registry.npmjs.org/@types/prop-types/-/prop-types-15.7.14.tgz"
@@ -1508,7 +1515,7 @@ minimatch@^9.0.4:
   dependencies:
     brace-expansion "^2.0.1"
 
-moment@^2.30.1:
+moment@*, moment@^2.30.1:
   version "2.30.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.30.1.tgz#f8c91c07b7a786e30c59926df530b4eac96974ae"
   integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
@@ -1525,7 +1532,8 @@ ms@^2.1.3:
     "@reduxjs/toolkit" "^2.5.0"
     antd "^5.23.0"
     jwt-decode "^4.0.0"
-    myuniversity-client "file:C:/Users/AORUS/AppData/Local/Yarn/Cache/v6/npm-myuniversity-client-0.0.0-6ef3425f-082f-4888-a1be-4e1c0e86d5ef-1737625092745/node_modules/myuniversity-client"
+    moment "^2.30.1"
+    myuniversity-client "file:C:/Users/AORUS/AppData/Local/Yarn/Cache/v6/npm-myuniversity-client-0.0.0-1c3775e0-6113-4e68-8405-0b69feeceaaa-1737635699295/node_modules/myuniversity-client"
     react "^18.3.1"
     react-dom "^18.3.1"
     react-hook-form "^7.54.2"

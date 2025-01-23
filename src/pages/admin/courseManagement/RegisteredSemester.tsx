@@ -2,7 +2,8 @@ import { Button, Dropdown, Table, TableColumnsType, Tag } from "antd";
 import moment from "moment";
 import { TSemester } from "../../../types";
 import { useState } from "react";
-import { useGetRegisteredSemestersQuery } from "../../../redux/features/admin/courseManagement";
+import { useGetRegisteredSemestersQuery, useUpdateRegisteredSemesterStatusMutation } from "../../../redux/features/admin/courseManagement";
+import { FieldValues, SubmitHandler } from "react-hook-form";
 export type TTableData = Pick<TSemester, "startDate" | "endDate" | "status">;
 
 const items = [
@@ -25,8 +26,8 @@ const RegisteredSemesters = () => {
   const [semesterId, setSemesterId] = useState("");
   const { data: semesterData, isFetching } =
     useGetRegisteredSemestersQuery(undefined);
+  const [updateSemesterStatus] = useUpdateRegisteredSemesterStatusMutation();
 
-  console.log(semesterId);
 
   const tableData = semesterData?.data?.map(
     ({ _id, academicSemester, startDate, endDate, status }) => ({
@@ -38,20 +39,20 @@ const RegisteredSemesters = () => {
     })
   );
 
-//   const handleStatusUpdate = (data) => {
-//     const updateData = {
-//       id: semesterId,
-//       data: {
-//         status: data.key,
-//       },
-//     };
+  const handleStatusUpdate: SubmitHandler<FieldValues> = (data) => {
+    const updateData = {
+      id: semesterId,
+      data: {
+        status: data.key,
+      },
+    };
 
-//     updateSemesterStatus(updateData);
-//   };
+    updateSemesterStatus(updateData);
+  };
 
   const menuProps = {
     items,
-    onClick: items,
+    onClick: handleStatusUpdate,
   };
 
   const columns: TableColumnsType<TTableData> = [
@@ -101,18 +102,6 @@ const RegisteredSemesters = () => {
       },
     },
   ];
-
-  // const onChange: TableProps<TTableData>['onChange'] = (
-  //   _pagination,
-  //   filters,
-  //   _sorter,
-  //   extra
-  // ) => {
-  //   if (extra.action === 'filter') {
-  //     const queryParams: TQueryParam[] = [];
-  //     setParams(queryParams);
-  //   }
-  // };
 
   return (
     <Table
