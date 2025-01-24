@@ -33,20 +33,22 @@ const Login = () => {
       const user = verifyToken(token) as TUser;
       dispatch(setUser({ user: user, token: token }));
       toast.success("Login successful", { id: toastId, duration: 2000 });
-      navigate(`/${user.role}/dashboard`);
+
+      if (res?.data?.needsPasswordChange) {
+        navigate("/change-password");
+      } else {
+        navigate(`/${user.role}/dashboard`);
+      }
+      
     } catch (error) {
       toast.error("Invalid credentials", { id: toastId, duration: 2000 });
     }
   };
 
   return (
-    <Row
-      justify="center"
-      align={"middle"}
-      style={{ height: "100vh", }}
-    >
+    <Row justify="center" align={"middle"} style={{ height: "100vh" }}>
       <PHForm onSubmit={onSubmit} defaultValues={defaultValues}>
-        <h1 style={{marginBottom: '10px'}}>Login</h1>
+        <h1 style={{ marginBottom: "10px" }}>Login</h1>
         <PHInput type="text" name="userId" label="Id:" />
         <PHInput type="text" name="password" label="Password" />
         <Button htmlType="submit">Login</Button>
